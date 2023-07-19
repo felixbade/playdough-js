@@ -124,3 +124,21 @@ export class Circle extends Shape {
         return this._element.getAttribute('r');
     }
 }
+
+export class Square extends Shape {
+    constructor(length) {
+        super('rect');
+        this.size = length;
+    }
+
+    set size(length) {
+        this._element.setAttribute('x', -length/2);
+        this._element.setAttribute('y', -length/2);
+        this._element.setAttribute('width', length);
+        this._element.setAttribute('height', length);
+    }
+
+    get size() {
+        return this._element.getAttribute('width');
+    }
+}
