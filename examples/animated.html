@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                overflow: hidden;
+            }
+        </style>
+        <!-- Replace ../dist/main.js with the CDN link to the latest version -->
+        <script src="../dist/main.js"></script>
+        <script>
+            const { Playdough, Square } = PlaydoughJS;
+
+            window.addEventListener('load', () => {
+                const playdough = new Playdough();
+
+                const square = new Square(50);
+                playdough.add(square);
+
+                playdough.onRedraw = t => {
+                    square.translation = playdough.pointer;
+                    square.horizontalStretch = Math.exp(Math.cos(t))
+                };
+            });
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

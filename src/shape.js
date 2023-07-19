@@ -43,6 +43,11 @@ export class Shape {
         this.updateTransform();
     }
 
+    set horizontalStretch(horizontalStretch) {
+        this._transform.horizontalStretch = horizontalStretch;
+        this.updateTransform();
+    }
+
     rotate(angle) {
         this._transform.update(new Rotate(angle));
         this.updateTransform();

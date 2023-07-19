@@ -62,10 +62,20 @@ export class Transform {
         this.matrix[1][1] *= multiplier;
     }
 
-    get stretchXY() {
+    get horizontalStretch() {
         return this.scalingX / this.scalingY;
     }
 
+    set horizontalStretch(horizontalStretch) {
+        // check the current horizontal stretch and stretch accordingly
+        const multiplier = Math.sqrt(horizontalStretch / this.horizontalStretch);
+        // multiply input-x to both output directions
+        this.matrix[0][0] *= multiplier;
+        this.matrix[1][0] *= multiplier;
+        // divide input-y to both output directions
+        this.matrix[0][1] /= multiplier;
+        this.matrix[1][1] /= multiplier;
+    }
     // return transform in svg format
     toString() {
         return `matrix(${this.matrix[0][0]}, ${this.matrix[1][0]}, ${this.matrix[0][1]}, ${this.matrix[1][1]}, ${this.matrix[0][2]}, ${this.matrix[1][2]})`;
