@@ -24,6 +24,12 @@
 
                 playdough.onRedraw = () => {
                     circle.translation = playdough.pointer;
+
+                    if (playdough.mouseDown) {
+                        circle.scaling = 2;
+                    } else {
+                        circle.scaling = 1;
+                    }
                 };
             });
         </script>

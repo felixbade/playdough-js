@@ -38,6 +38,11 @@ export class Shape {
         this.updateTransform();
     }
 
+    set scaling(scaling) {
+        this._transform.scaling = scaling;
+        this.updateTransform();
+    }
+
     rotate(angle) {
         this._transform.update(new Rotate(angle));
         this.updateTransform();

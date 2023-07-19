@@ -73,4 +73,8 @@ export class Playdough {
         point.y = this._pointerY;
         return point.matrixTransform(this.svg.getScreenCTM().inverse());
     }
+
+    get mouseDown() {
+        return this._mouseDown;
+    }
 }

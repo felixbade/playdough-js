@@ -31,6 +31,41 @@ export class Transform {
         this.matrix[1][2] = translation.y;
     }
 
+    get translation() {
+        return {
+            x: this.matrix[0][2],
+            y: this.matrix[1][2]
+        };
+    }
+
+    get scalingX() {
+        // x input, rotation independent length
+        return Math.sqrt(this.matrix[0][0] * this.matrix[0][0] + this.matrix[1][0] * this.matrix[1][0]);
+    }
+
+    get scalingY() {
+        // y input, rotation independent length
+        return Math.sqrt(this.matrix[0][1] * this.matrix[0][1] + this.matrix[1][1] * this.matrix[1][1]);
+    }
+
+    get scaling() {
+        // geometric mean of the scaling factors
+        return Math.sqrt(this.scalingX * this.scalingY);
+    }
+
+    set scaling(scaling) {
+        // check the current scaling and scale uniformly
+        const multiplier = scaling / this.scaling;
+        this.matrix[0][0] *= multiplier;
+        this.matrix[1][0] *= multiplier;
+        this.matrix[0][1] *= multiplier;
+        this.matrix[1][1] *= multiplier;
+    }
+
+    get stretchXY() {
+        return this.scalingX / this.scalingY;
+    }
+
     // return transform in svg format
     toString() {
         return `matrix(${this.matrix[0][0]}, ${this.matrix[1][0]}, ${this.matrix[0][1]}, ${this.matrix[1][1]}, ${this.matrix[0][2]}, ${this.matrix[1][2]})`;
