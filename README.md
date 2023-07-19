@@ -28,3 +28,6 @@ npm install playdough
 ```javascript
 import { Playdough } from 'playdough'
 ```
+
+## Philosophy
+- PlaydoughJS does not aim to provide full control of the SVG’s raw XML. Instead, opinionated abstractions are provided.
