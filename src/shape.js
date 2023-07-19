@@ -64,7 +64,7 @@ export class Shape {
     }
 
     set fill(color) {
-        if (color === null) {
+        if (!color) {
             color = 'none';
         }
         this._style.fill = color;
