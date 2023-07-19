@@ -29,56 +29,57 @@ export class Playdough {
         this.svg.setAttribute('viewBox', `${-xMidPoint} ${-yMidPoint} ${svgWidth} ${svgHeight}`);
     }
 
-    draw(shape) {
-        this.svg.appendChild(shape.getElement());
+    draw(shape, style) {
+        const element = shape.createElement();
+
+        // if no style, use black fill
+        if (style) {
+            // element.setAttribute('style', style);
+        } else {
+            element.setAttribute('fill', 'black');
+        }
+
+        this.svg.appendChild(element);
     }
 }
 
 
 export class Shape {
-    constructor() {
-        this.transform = new Transform();
+    constructor(elementName) {
+        this._element = document.createElementNS('http://www.w3.org/2000/svg', elementName);
+        this._transform = new Transform();
+    }
+
+    createElement() {
+        const element = this._element.cloneNode(true); // deep clone
+        element.setAttribute('transform', this._transform.toString());
+        return element;
     }
 
     translate(x, y) {
-        this.transform.update(new Translate(x, y));
-        this.updateTransform();
+        this._transform.update(new Translate(x, y));
     }
 
     scale(factor) {
-        this.transform.update(new Scale(factor));
-        this.updateTransform();
+        this._transform.update(new Scale(factor));
     }
 
     rotate(angle) {
-        this.transform.update(new Rotate(angle));
-        this.updateTransform();
+        this._transform.update(new Rotate(angle));
     }
 
     skewX(amount) {
-        this.transform.update(new SkewX(amount));
-        this.updateTransform();
+        this._transform.update(new SkewX(amount));
     }
 
     skewY(amount) {
-        this.transform.update(new SkewY(amount));
-        this.updateTransform();
-    }
-
-    updateTransform() {
-        this.element.setAttribute('transform', this.transform.toString());
+        this._transform.update(new SkewY(amount));
     }
 }
 
 export class Circle extends Shape {
     constructor(radius) {
-        super();
-        this.element = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        this.element.setAttribute('r', radius);
-        this.element.setAttribute('fill', 'black');
-    }
-
-    getElement() {
-        return this.element;
+        super('circle');
+        this._element.setAttribute('r', radius);
     }
 }
