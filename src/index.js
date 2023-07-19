@@ -1,3 +1,6 @@
+import { Transform, Translate, Scale, Rotate, SkewX, SkewY } from './transform.js';
+export { Transform, Translate, Scale, Rotate, SkewX, SkewY };
+
 export class Playdough {
     constructor(parent = document.body) {
         this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -31,8 +34,45 @@ export class Playdough {
     }
 }
 
-export class Circle {
+
+export class Shape {
+    constructor() {
+        this.transform = new Transform();
+    }
+
+    translate(x, y) {
+        this.transform.update(new Translate(x, y));
+        this.updateTransform();
+    }
+
+    scale(factor) {
+        this.transform.update(new Scale(factor));
+        this.updateTransform();
+    }
+
+    rotate(angle) {
+        this.transform.update(new Rotate(angle));
+        this.updateTransform();
+    }
+
+    skewX(amount) {
+        this.transform.update(new SkewX(amount));
+        this.updateTransform();
+    }
+
+    skewY(amount) {
+        this.transform.update(new SkewY(amount));
+        this.updateTransform();
+    }
+
+    updateTransform() {
+        this.element.setAttribute('transform', this.transform.toString());
+    }
+}
+
+export class Circle extends Shape {
     constructor(radius) {
+        super();
         this.element = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         this.element.setAttribute('r', radius);
         this.element.setAttribute('fill', 'black');
