@@ -43,12 +43,15 @@ export class Playdough {
             this._mouseDown = false;
         });
 
+        this.startDate = Date.now();
         this.onRedraw = () => {};
         this.doRedraw();
     }
 
     doRedraw() {
-        this.onRedraw();
+        // seconds
+        const time = (Date.now() - this.startDate) / 1000;
+        this.onRedraw(time);
         window.requestAnimationFrame(() => this.doRedraw());
     }
 
