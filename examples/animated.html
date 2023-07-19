@@ -19,15 +19,18 @@
             window.addEventListener('load', () => {
                 const playdough = new Playdough();
 
-                const square = new Square(50);
+                const square = new Square(200);
+                square.fill = null;
+                square.stroke = 'black';
+                square.strokeWidth = 10;
                 playdough.add(square);
 
                 square.horizontalStretch = 2;
                 playdough.onRedraw = t => {
                     square.translation = playdough.pointer;
-                    square.rotation = -t;
-                    square.diagonalStretch = Math.exp(Math.sin(2*t));
-                    square.horizontalStretch = Math.exp(Math.cos(2*t));
+                    square.rotation = -t/2;
+                    square.stretch = Math.exp(Math.sin(t));
+                    square.stretchAngle = t;
                 };
             });
         </script>

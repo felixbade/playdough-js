@@ -42,22 +42,14 @@ export class Shape {
         this.updateTransform();
     }
 
-    set horizontalStretch(horizontalStretch) {
-        this._transform.horizontalStretch = horizontalStretch;
+    set stretch(stretch) {
+        this._transform.stretch = stretch;
         this.updateTransform();
     }
 
-    get horizontalStretch() {
-        return this._transform.horizontalStretch;
-    }
-
-    set diagonalStretch(diagonalStretch) {
-        this._transform.diagonalStretch = diagonalStretch;
+    set stretchAngle(angle) {
+        this._transform.stretchAngle = angle;
         this.updateTransform();
-    }
-
-    get diagonalStretch() {
-        return this._transform.diagonalStretch;
     }
 
     // Style
@@ -72,6 +64,9 @@ export class Shape {
     }
 
     set fill(color) {
+        if (color === null) {
+            color = 'none';
+        }
         this._style.fill = color;
         this.updateStyle();
     }

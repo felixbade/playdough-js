@@ -64,28 +64,18 @@ export class Transform {
         this.scale = new Scale(1)
         this.translate = new Translate(0, 0)
         this.rotationValue = 0
-        this.stretchHorizontal = 1
-        this.stretchDiagonal = 1
+        this.stretchAmount = 1
+        this.stretchAngleValue = 0
     }
 
     get matrix() {
-        const logStretchHorizontal = Math.log(this.stretchHorizontal)
-        const logStretchDiagonal = Math.log(this.stretchDiagonal)
-        const sqLogStretchHorizontal = Math.pow(logStretchHorizontal, 2)
-        const sqLogStretchDiagonal = Math.pow(logStretchDiagonal, 2)
-        const logStretchAmount = Math.sqrt(sqLogStretchHorizontal + sqLogStretchDiagonal)
-        const stretchAmount = Math.exp(logStretchAmount)
-        // Divide by 2 because diagonal and orthogonal
-        // Full cycle is 180 degrees
-        const stretchAngle = Math.atan2(logStretchDiagonal, logStretchHorizontal) / 2
-
         let matrix = new Matrix();
         matrix.update(this.translate);
         matrix.update(this.scale);
         matrix.update(new Rotate(this.rotationValue));
-        matrix.update(new Rotate(stretchAngle));
-        matrix.update(new StretchHorizontal(stretchAmount));
-        matrix.update(new Rotate(-stretchAngle));
+        matrix.update(new Rotate(this.stretchAngleValue));
+        matrix.update(new StretchHorizontal(this.stretchAmount));
+        matrix.update(new Rotate(-this.stretchAngleValue));
         return matrix
     }
 
@@ -101,16 +91,16 @@ export class Transform {
         this.scale = new Scale(scaling)
     }
 
-    set horizontalStretch(horizontalStretch) {
-        this.stretchHorizontal = horizontalStretch
-    }
-
-    set diagonalStretch(diagonalStretch) {
-        this.stretchDiagonal = diagonalStretch
-    }
-
     set rotation(rotation) {
         this.rotationValue = rotation
+    }
+
+    set stretch(stretchAmount) {
+        this.stretchAmount = stretchAmount
+    }
+
+    set stretchAngle(stretchAngle) {
+        this.stretchAngleValue = stretchAngle
     }
 
 }
