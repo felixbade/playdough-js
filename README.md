@@ -1,4 +1,9 @@
 # PlaydoughJS
+
+![npm](https://img.shields.io/npm/v/playdough)
+![npm bundle size](https://img.shields.io/bundlephobia/min/playdough)
+![NPM](https://img.shields.io/npm/l/playdough)
+
 Simple SVG library for interactive projects
 
 See [examples folder](/examples).
@@ -8,7 +13,7 @@ See [examples folder](/examples).
 ### URL
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/playdough@0.1.1/dist/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/playdough@0.1.2/dist/main.js"></script>
 ```
 
 ```javascript
