@@ -1,3 +1,5 @@
+import { Transform, Translate, Scale, Rotate, SkewX, SkewY } from './transform.js';
+
 export class Shape {
     constructor(elementName) {
         this._element = document.createElementNS('http://www.w3.org/2000/svg', elementName);
