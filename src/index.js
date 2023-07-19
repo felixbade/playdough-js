@@ -23,6 +23,33 @@ export class Playdough {
         this.updateViewBox();
 
         window.addEventListener('resize', () => this.updateViewBox());
+
+        // Pointer position
+        // initial is in the middle of the svg
+        this._pointerX = this.svg.clientWidth / 2;
+        this._pointerY = this.svg.clientHeight / 2;
+        this._mouseDown = false;
+
+        window.addEventListener('mousemove', (event) => {
+            this._pointerX = event.clientX;
+            this._pointerY = event.clientY;
+        });
+
+        window.addEventListener('mousedown', () => {
+            this._mouseDown = true;
+        });
+
+        window.addEventListener('mouseup', () => {
+            this._mouseDown = false;
+        });
+
+        this.onRedraw = () => {};
+        this.doRedraw();
+    }
+
+    doRedraw() {
+        this.onRedraw();
+        window.requestAnimationFrame(() => this.doRedraw());
     }
 
     updateViewBox() {
@@ -37,5 +64,13 @@ export class Playdough {
 
     add(shape) {
         this.svg.appendChild(shape.element);
+    }
+
+    get pointer() {
+        // return mouse position in svg coordinates
+        const point = this.svg.createSVGPoint();
+        point.x = this._pointerX;
+        point.y = this._pointerY;
+        return point.matrixTransform(this.svg.getScreenCTM().inverse());
     }
 }

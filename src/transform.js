@@ -26,6 +26,11 @@ export class Transform {
         this.matrix = this.multiplyRaw(other);
     }
 
+    set translation(translation) {
+        this.matrix[0][2] = translation.x;
+        this.matrix[1][2] = translation.y;
+    }
+
     // return transform in svg format
     toString() {
         return `matrix(${this.matrix[0][0]}, ${this.matrix[1][0]}, ${this.matrix[0][1]}, ${this.matrix[1][1]}, ${this.matrix[0][2]}, ${this.matrix[1][2]})`;
