@@ -14,7 +14,7 @@
         <!-- Replace ../dist/main.js with the CDN link to the latest version -->
         <script src="../dist/main.js"></script>
         <script>
-            const { Playdough, Circle, Style } = PlaydoughJS;
+            const { Playdough, Circle } = PlaydoughJS;
 
             window.addEventListener('load', () => {
                 const playdough = new Playdough();
@@ -22,17 +22,15 @@
                 const circle = new Circle(50);
                 circle.translate(300, 300);
                 circle.scale(0.5);
-                playdough.draw(circle);
+                playdough.add(circle);
 
                 // Same as above, but in a different order
-                // This will scale the translation as well
+                // This will scale the translation as wel
                 const circle2 = new Circle(50);
                 circle2.scale(0.5);
                 circle2.translate(300, 300);
-
-                const redFill = new Style();
-                redFill.fill = 'red';
-                playdough.draw(circle2, redFill);
+                circle2.fill = 'red';
+                playdough.add(circle2);
             });
         </script>
     </head>

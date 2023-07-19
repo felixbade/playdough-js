@@ -35,16 +35,7 @@ export class Playdough {
         this.svg.setAttribute('viewBox', `${-xMidPoint} ${-yMidPoint} ${svgWidth} ${svgHeight}`);
     }
 
-    draw(shape, style) {
-        const element = shape.createElement();
-
-        // if no style, use black fill
-        if (style && style instanceof Style) {
-            element.style = style.toString();
-        } else {
-            element.setAttribute('fill', 'black');
-        }
-
-        this.svg.appendChild(element);
+    add(shape) {
+        this.svg.appendChild(shape.element);
     }
 }
