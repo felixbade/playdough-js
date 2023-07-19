@@ -4,6 +4,9 @@ export { Transform, Translate, Scale, Rotate, SkewX, SkewY };
 import { Shape, Circle } from './shape.js';
 export { Shape, Circle };
 
+import { Style } from './style.js';
+export { Style };
+
 export class Playdough {
     constructor(parent = document.body) {
         this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -36,8 +39,8 @@ export class Playdough {
         const element = shape.createElement();
 
         // if no style, use black fill
-        if (style) {
-            // element.setAttribute('style', style);
+        if (style && style instanceof Style) {
+            element.style = style.toString();
         } else {
             element.setAttribute('fill', 'black');
         }

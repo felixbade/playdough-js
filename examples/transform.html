@@ -14,7 +14,7 @@
         <!-- Replace ../dist/main.js with the CDN link to the latest version -->
         <script src="../dist/main.js"></script>
         <script>
-            const { Playdough, Circle } = PlaydoughJS;
+            const { Playdough, Circle, Style } = PlaydoughJS;
 
             window.addEventListener('load', () => {
                 const playdough = new Playdough();
@@ -29,7 +29,10 @@
                 const circle2 = new Circle(50);
                 circle2.scale(0.5);
                 circle2.translate(300, 300);
-                playdough.draw(circle2);
+
+                const redFill = new Style();
+                redFill.fill = 'red';
+                playdough.draw(circle2, redFill);
             });
         </script>
     </head>
