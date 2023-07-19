@@ -1,4 +1,4 @@
-export class Transform {
+class Matrix {
     constructor(matrix) {
         this.matrix = matrix || [[1, 0, 0], [0, 1, 0], [0, 0, 1]];  // Initialized with identity matrix
     }
@@ -26,79 +26,25 @@ export class Transform {
         this.matrix = this.multiplyRaw(other);
     }
 
-    set translation(translation) {
-        this.matrix[0][2] = translation.x;
-        this.matrix[1][2] = translation.y;
-    }
-
-    get translation() {
-        return {
-            x: this.matrix[0][2],
-            y: this.matrix[1][2]
-        };
-    }
-
-    get scalingX() {
-        // x input, rotation independent length
-        return Math.sqrt(this.matrix[0][0] * this.matrix[0][0] + this.matrix[1][0] * this.matrix[1][0]);
-    }
-
-    get scalingY() {
-        // y input, rotation independent length
-        return Math.sqrt(this.matrix[0][1] * this.matrix[0][1] + this.matrix[1][1] * this.matrix[1][1]);
-    }
-
-    get scaling() {
-        // geometric mean of the scaling factors
-        return Math.sqrt(this.scalingX * this.scalingY);
-    }
-
-    set scaling(scaling) {
-        // check the current scaling and scale uniformly
-        const multiplier = scaling / this.scaling;
-        this.matrix[0][0] *= multiplier;
-        this.matrix[1][0] *= multiplier;
-        this.matrix[0][1] *= multiplier;
-        this.matrix[1][1] *= multiplier;
-    }
-
-    get horizontalStretch() {
-        return this.scalingX / this.scalingY;
-    }
-
-    set horizontalStretch(horizontalStretch) {
-        // check the current horizontal stretch and stretch accordingly
-        const multiplier = Math.sqrt(horizontalStretch / this.horizontalStretch);
-        // multiply input-x to both output directions
-        this.matrix[0][0] *= multiplier;
-        this.matrix[1][0] *= multiplier;
-        // divide input-y to both output directions
-        this.matrix[0][1] /= multiplier;
-        this.matrix[1][1] /= multiplier;
-    }
-    // return transform in svg format
     toString() {
         return `matrix(${this.matrix[0][0]}, ${this.matrix[1][0]}, ${this.matrix[0][1]}, ${this.matrix[1][1]}, ${this.matrix[0][2]}, ${this.matrix[1][2]})`;
     }
 }
 
-export class Translate extends Transform {
+
+class Translate extends Matrix {
     constructor(x, y) {
         super([[1, 0, x], [0, 1, y], [0, 0, 1]]);
     }
 }
 
-export class Scale extends Transform {
-    constructor(factorX, factorY) {
-        // if only one factor is given, scale uniformly
-        if (factorY === undefined) {
-            factorY = factorX;
-        }
-        super([[factorX, 0, 0], [0, factorY, 0], [0, 0, 1]]);
+class Scale extends Matrix {
+    constructor(factor) {
+        super([[factor, 0, 0], [0, factor, 0], [0, 0, 1]]);
     }
 }
 
-export class Rotate extends Transform {
+class Rotate extends Matrix {
     constructor(angle) {
         const sin = Math.sin(angle);
         const cos = Math.cos(angle);
@@ -106,14 +52,65 @@ export class Rotate extends Transform {
     }
 }
 
-export class SkewX extends Transform {
+class StretchHorizontal extends Matrix {
+    // determinant is 1
     constructor(amount) {
-        super([[1, 0, 0], [amount, 1, 0], [0, 0, 1]]);
+        super([[Math.sqrt(amount), 0, 0], [0, 1 / Math.sqrt(amount), 0], [0, 0, 1]]);
     }
 }
 
-export class SkewY extends Transform {
-    constructor(amount) {
-        super([[1, amount, 0], [0, 1, 0], [0, 0, 1]]);
+export class Transform {
+    constructor() {
+        this.scale = new Scale(1)
+        this.translate = new Translate(0, 0)
+        this.rotationValue = 0
+        this.stretchHorizontal = 1
+        this.stretchDiagonal = 1
     }
+
+    get matrix() {
+        const logStretchHorizontal = Math.log(this.stretchHorizontal)
+        const logStretchDiagonal = Math.log(this.stretchDiagonal)
+        const sqLogStretchHorizontal = Math.pow(logStretchHorizontal, 2)
+        const sqLogStretchDiagonal = Math.pow(logStretchDiagonal, 2)
+        const logStretchAmount = Math.sqrt(sqLogStretchHorizontal + sqLogStretchDiagonal)
+        const stretchAmount = Math.exp(logStretchAmount)
+        // Divide by 2 because diagonal and orthogonal
+        // Full cycle is 180 degrees
+        const stretchAngle = Math.atan2(logStretchDiagonal, logStretchHorizontal) / 2
+
+        let matrix = new Matrix();
+        matrix.update(this.translate);
+        matrix.update(this.scale);
+        matrix.update(new Rotate(this.rotationValue));
+        matrix.update(new Rotate(stretchAngle));
+        matrix.update(new StretchHorizontal(stretchAmount));
+        matrix.update(new Rotate(-stretchAngle));
+        return matrix
+    }
+
+    toString() {
+        return this.matrix.toString()
+    }
+
+    set translation(translation) {
+        this.translate = new Translate(translation.x, translation.y)
+    }
+
+    set scaling(scaling) {
+        this.scale = new Scale(scaling)
+    }
+
+    set horizontalStretch(horizontalStretch) {
+        this.stretchHorizontal = horizontalStretch
+    }
+
+    set diagonalStretch(diagonalStretch) {
+        this.stretchDiagonal = diagonalStretch
+    }
+
+    set rotation(rotation) {
+        this.rotationValue = rotation
+    }
+
 }

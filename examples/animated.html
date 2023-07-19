@@ -22,9 +22,12 @@
                 const square = new Square(50);
                 playdough.add(square);
 
+                square.horizontalStretch = 2;
                 playdough.onRedraw = t => {
                     square.translation = playdough.pointer;
-                    square.horizontalStretch = Math.exp(Math.cos(t))
+                    square.rotation = -t;
+                    square.diagonalStretch = Math.exp(Math.sin(2*t));
+                    square.horizontalStretch = Math.exp(Math.cos(2*t));
                 };
             });
         </script>

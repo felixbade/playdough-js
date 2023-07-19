@@ -1,4 +1,4 @@
-import { Transform, Translate, Scale, Rotate, SkewX, SkewY } from './transform.js';
+import { Transform } from './transform.js';
 import { Style } from './style.js';
 
 export class Shape {
@@ -23,18 +23,12 @@ export class Shape {
 
     // Transforms
 
-    translate(x, y) {
-        this._transform.update(new Translate(x, y));
-        this.updateTransform();
+    get transform() {
+        return this._transform;
     }
 
     set translation(translation) {
         this._transform.translation = translation;
-        this.updateTransform();
-    }
-
-    scale(factor) {
-        this._transform.update(new Scale(factor));
         this.updateTransform();
     }
 
@@ -43,24 +37,27 @@ export class Shape {
         this.updateTransform();
     }
 
+    set rotation(rotation) {
+        this._transform.rotation = rotation;
+        this.updateTransform();
+    }
+
     set horizontalStretch(horizontalStretch) {
         this._transform.horizontalStretch = horizontalStretch;
         this.updateTransform();
     }
 
-    rotate(angle) {
-        this._transform.update(new Rotate(angle));
+    get horizontalStretch() {
+        return this._transform.horizontalStretch;
+    }
+
+    set diagonalStretch(diagonalStretch) {
+        this._transform.diagonalStretch = diagonalStretch;
         this.updateTransform();
     }
 
-    skewX(amount) {
-        this._transform.update(new SkewX(amount));
-        this.updateTransform();
-    }
-
-    skewY(amount) {
-        this._transform.update(new SkewY(amount));
-        this.updateTransform();
+    get diagonalStretch() {
+        return this._transform.diagonalStretch;
     }
 
     // Style

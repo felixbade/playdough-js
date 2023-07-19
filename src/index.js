@@ -1,5 +1,5 @@
-import { Transform, Translate, Scale, Rotate, SkewX, SkewY } from './transform.js';
-export { Transform, Translate, Scale, Rotate, SkewX, SkewY };
+import { Transform } from './transform.js';
+export { Transform };
 
 import { Shape, Circle, Square } from './shape.js';
 export { Shape, Circle, Square };
