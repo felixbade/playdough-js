@@ -112,9 +112,9 @@ export class Shape {
 }
 
 export class Circle extends Shape {
-    constructor(radius) {
+    constructor(diameter) {
         super('circle');
-        this._element.setAttribute('r', radius);
+        this._element.setAttribute('r', diameter / 2);
     }
 
     set r(radius) {
@@ -123,6 +123,14 @@ export class Circle extends Shape {
 
     get r() {
         return this._element.getAttribute('r');
+    }
+
+    set d(diameter) {
+        this._element.setAttribute('r', diameter / 2);
+    }
+
+    get d() {
+        return this._element.getAttribute('r') * 2;
     }
 }
 
