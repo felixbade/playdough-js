@@ -19,9 +19,11 @@
             window.addEventListener('load', () => {
                 const playdough = new Playdough();
 
+                playdough.background = 'hsl(215, 100%, 50%)';
+
                 const square = new Square(200);
                 square.fill = null;
-                square.stroke = 'black';
+                square.stroke = 'white';
                 square.strokeWidth = 10;
                 playdough.add(square);
 

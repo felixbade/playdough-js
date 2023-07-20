@@ -80,4 +80,27 @@ export class Playdough {
     get mouseDown() {
         return this._mouseDown;
     }
+
+    set background(color) {
+        this.svg.style.backgroundColor = color;
+        setPageThemeColor(color);
+    }
+}
+
+const setPageThemeColor = (color) => {
+    // Search for the meta tag
+    let metaThemeColor = document.querySelector('meta[name=theme-color]');
+
+    // If the meta tag does not exist, create a new one
+    if (!metaThemeColor) {
+        metaThemeColor = document.createElement('meta');
+        metaThemeColor.name = 'theme-color';
+
+        // Append the created meta tag to the head of the document
+        document.querySelector('head').appendChild(metaThemeColor);
+        console.log(metaThemeColor)
+    }
+
+    // Set the content of the meta tag to the specified color
+    metaThemeColor.content = color;
 }
