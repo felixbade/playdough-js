@@ -87,7 +87,7 @@ class StretchHorizontal extends Matrix {
 
 export class Transform {
     constructor() {
-        this.scale = new Scale(1)
+        this.scale = 1
         this.translate = new Translate(0, 0)
         this.rotationValue = 0
         this.stretchAmount = 1
@@ -96,7 +96,7 @@ export class Transform {
 
     duplicate() {
         const result = new Transform();
-        result.scale = this.scale.duplicate();
+        result.scale = this.scale;
         result.translate = this.translate.duplicate();
         result.rotationValue = this.rotationValue;
         result.stretchAmount = this.stretchAmount;
@@ -107,7 +107,7 @@ export class Transform {
     get matrix() {
         let matrix = new Matrix();
         matrix.update(this.translate);
-        matrix.update(this.scale);
+        matrix.update(new Scale(this.scale));
         matrix.update(new Rotate(this.rotationValue));
         matrix.update(new Rotate(this.stretchAngleValue));
         matrix.update(new StretchHorizontal(this.stretchAmount));
@@ -128,7 +128,7 @@ export class Transform {
     }
 
     set scaling(scaling) {
-        this.scale = new Scale(scaling)
+        this.scale = scaling
     }
 
     set rotation(rotation) {
