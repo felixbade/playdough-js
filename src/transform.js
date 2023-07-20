@@ -3,6 +3,12 @@ class Matrix {
         this.matrix = matrix || [[1, 0, 0], [0, 1, 0], [0, 0, 1]];  // Initialized with identity matrix
     }
 
+    duplicate() {
+        const result = new Matrix();
+        result.matrix = this.matrix.map(row => row.slice());
+        return result;
+    }
+
     multiplyRaw(other) {
         let result = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
 
@@ -32,17 +38,29 @@ class Matrix {
 }
 
 
-class Translate extends Matrix {
+export class Translate extends Matrix {
     constructor(x, y) {
         super([[1, 0, x], [0, 1, y], [0, 0, 1]]);
+    }
+
+    duplicate() {
+        return new Translate(this.x, this.y);
     }
 
     set x(x) {
         this.matrix[0][2] = x;
     }
 
+    get x() {
+        return this.matrix[0][2];
+    }
+
     set y(y) {
         this.matrix[1][2] = y;
+    }
+
+    get y() {
+        return this.matrix[1][2];
     }
 }
 
@@ -76,6 +94,16 @@ export class Transform {
         this.stretchAngleValue = 0
     }
 
+    duplicate() {
+        const result = new Transform();
+        result.scale = this.scale.duplicate();
+        result.translate = this.translate.duplicate();
+        result.rotationValue = this.rotationValue;
+        result.stretchAmount = this.stretchAmount;
+        result.stretchAngleValue = this.stretchAngleValue;
+        return result;
+    }
+
     get matrix() {
         let matrix = new Matrix();
         matrix.update(this.translate);
@@ -92,7 +120,7 @@ export class Transform {
     }
 
     set translation(translation) {
-        this.translate = new Translate(translation.x, translation.y)
+        this.translate = translation
     }
 
     get translation() {

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                overflow: hidden;
+            }
+        </style>
+        <!-- Replace ../dist/main.js with the CDN link to the latest version -->
+        <script src="../dist/main.js"></script>
+        <script>
+            const { Playdough, Square, Container, Translate } = PlaydoughJS;
+
+            window.addEventListener('load', () => {
+                const playdough = new Playdough();
+
+                playdough.background = 'hsl(215, 100%, 50%)';
+
+                let container = new Container();
+                const square = new Square(200);
+                square.fill = null;
+                square.stroke = 'white';
+                square.strokeWidth = 10;
+                container.add(square);
+                console.log(container.translation.x)
+
+                for (let i = 0; i < 6; i++) {
+                    let container2 = container.duplicate();
+                    container2.scaling = 0.6;
+                    container2.rotation = 0.5;
+                    container2.translation = new Translate(200, 0);
+                    container.add(container2);
+
+                    let container3 = container.duplicate();
+                    container3.scaling = 0.7;
+                    container3.rotation = 0.6;
+                    container.add(container3);
+                }
+
+                // for (let i = 0; i < 8; i++) {
+                //     const container2 = container.duplicate();
+                //     container2.translation.x = 200;
+
+                //     const newContainer = new Container();
+                //     newContainer.scaling = 0.7;
+                //     newContainer.add(container);
+                //     newContainer.add(container2);
+                //     container = newContainer;
+                // }
+
+                playdough.add(container);
+
+                playdough.onRedraw = t => {
+                    // square.translation.x = playdough.pointer.x;
+                    // square.rotation = -t/2;
+                    // square.stretch = Math.exp(Math.sin(t));
+                    // square.stretchAngle = t;
+                };
+            });
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

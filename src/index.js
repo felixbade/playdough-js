@@ -1,8 +1,8 @@
-import { Transform } from './transform.js';
-export { Transform };
+import { Transform, Translate } from './transform.js';
+export { Transform, Translate };
 
-import { Shape, Circle, Square } from './shape.js';
-export { Shape, Circle, Square };
+import { Shape, Circle, Square, Container } from './shape.js';
+export { Shape, Circle, Square, Container };
 
 import { Style } from './style.js';
 export { Style };
@@ -53,6 +53,12 @@ export class Playdough {
         const time = (Date.now() - this.startDate) / 1000;
         this.onRedraw(time);
         window.requestAnimationFrame(() => this.doRedraw());
+    }
+
+    clear() {
+        while (this.svg.firstChild) {
+            this.svg.removeChild(this.svg.firstChild);
+        }
     }
 
     updateViewBox() {

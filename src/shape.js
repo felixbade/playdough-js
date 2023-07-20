@@ -9,6 +9,16 @@ export class Shape {
         this._style.fill = 'black';
     }
 
+    duplicate() {
+        const result = new Shape(this._element.tagName);
+        result._element = this._element.cloneNode(true);
+        result._transform = this._transform.duplicate();
+        result._style = this._style.duplicate();
+        result.updateTransform();
+        result.updateStyle();
+        return result;
+    }
+
     updateStyle() {
         this._element.setAttribute('style', this._style.toString());
     }
@@ -149,5 +159,15 @@ export class Square extends Shape {
 
     get size() {
         return this._element.getAttribute('width');
+    }
+}
+
+export class Container extends Shape {
+    constructor() {
+        super('g');
+    }
+
+    add(shape) {
+        this.element.appendChild(shape.element);
     }
 }

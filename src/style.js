@@ -3,6 +3,12 @@ export class Style {
         this._attributes = {};
     }
 
+    duplicate() {
+        const result = new Style();
+        result._attributes = Object.assign({}, this._attributes);
+        return result;
+    }
+
     // setter for fill property
     // this.fill = 'red';
     set fill(color) {
