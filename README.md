@@ -13,7 +13,7 @@ See [examples folder](/examples).
 ### URL
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/playdough@0.6.0/dist/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/playdough@0.7.0/dist/main.js"></script>
 ```
 
 ```javascript
