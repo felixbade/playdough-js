@@ -32,6 +32,10 @@ export class Shape {
         this.updateTransform();
     }
 
+    get translation() {
+        return this._transform.translation;
+    }
+
     set scaling(scaling) {
         this._transform.scaling = scaling;
         this.updateTransform();

@@ -29,7 +29,7 @@
 
                 square.horizontalStretch = 2;
                 playdough.onRedraw = t => {
-                    square.translation = playdough.pointer;
+                    square.translation.x = playdough.pointer.x;
                     square.rotation = -t/2;
                     square.stretch = Math.exp(Math.sin(t));
                     square.stretchAngle = t;

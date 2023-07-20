@@ -36,6 +36,14 @@ class Translate extends Matrix {
     constructor(x, y) {
         super([[1, 0, x], [0, 1, y], [0, 0, 1]]);
     }
+
+    set x(x) {
+        this.matrix[0][2] = x;
+    }
+
+    set y(y) {
+        this.matrix[1][2] = y;
+    }
 }
 
 class Scale extends Matrix {
@@ -85,6 +93,10 @@ export class Transform {
 
     set translation(translation) {
         this.translate = new Translate(translation.x, translation.y)
+    }
+
+    get translation() {
+        return this.translate
     }
 
     set scaling(scaling) {
